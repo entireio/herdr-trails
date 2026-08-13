@@ -11,7 +11,11 @@ platforms = ["linux", "macos"]
 id = "new"
 title = "New worktree from trail"
 contexts = ["workspace"]
-command = ["./bin/open-prompt.sh"]
+# Invoked through `sh` rather than executed directly so the plugin still works
+# if the executable bit does not survive publishing (zip download, a checkout
+# with core.fileMode off, Windows-authored commits). Action commands run with
+# the plugin directory as their working directory, so this path is relative.
+command = ["sh", "bin/open-prompt.sh"]
 
 # The actual flow. A popup owns terminal input, which is what makes pasting a
 # trail id or URL possible: plugin actions take no arguments, and plugins have
@@ -26,4 +30,4 @@ title = "New worktree from trail"
 placement = "popup"
 width = "72%"
 height = 18
-command = ["sh", "-c", "exec \"$HERDR_PLUGIN_ROOT/bin/prompt.sh\""]
+command = ["sh", "-c", "exec sh \"$HERDR_PLUGIN_ROOT/bin/prompt.sh\""]

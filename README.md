@@ -24,11 +24,33 @@ of a branch.
 
 ## Install
 
+Prerequisites: Herdr 0.8.0+, and `entire` (logged in), `git`, and `jq` on
+`PATH`. `jq` is not preinstalled on macOS before 15 — `brew install jq`.
+
 ```bash
-herdr plugin link /path/to/herdr-plugin-trail-worktree
+herdr plugin install entireio/herdr-plugin-trail-worktree
 ```
 
-Then bind a key in `~/.config/herdr/config.toml`:
+Pin a revision with `--ref v0.1.0` when you want a known version: install
+re-fetches on every run and there is no `plugin update`, so reinstalling is
+what picks up new code.
+
+While the repo is private, each person needs git to be able to clone it over
+**HTTPS** — `plugin install` builds `https://github.com/<owner>/<repo>.git` and
+cannot be pointed at SSH. If your remotes are all `git@github.com:`, you have no
+HTTPS credential and install fails with `could not read Username for
+'https://github.com'`. Fix it once with either:
+
+```bash
+gh auth setup-git                                                    # simplest
+git config --global url."git@github.com:".insteadOf "https://github.com/"
+```
+
+The second reuses your existing SSH keys but redirects *every* HTTPS github.com
+clone, which can surprise you later.
+
+Installing does not bind a key — Herdr plugins cannot add keybindings. Add one
+to `~/.config/herdr/config.toml`:
 
 ```toml
 [[keys.command]]
@@ -38,7 +60,11 @@ command = "entire.trail-worktree.new"
 description = "new worktree from trail"
 ```
 
-Requires `entire`, `git`, and `jq` on `PATH`, and Herdr 0.8.0+.
+Then `herdr server reload-config`. Without a keybinding the flow still works
+through `herdr plugin action invoke entire.trail-worktree.new`.
+
+To hack on it locally instead, `herdr plugin link /path/to/checkout` — linking
+skips build commands and runs straight from your working tree.
 
 ## What it does
 
