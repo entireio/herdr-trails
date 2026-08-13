@@ -1,0 +1,29 @@
+id = "entire.trail-worktree"
+name = "Entire Trail Worktree"
+version = "0.1.0"
+min_herdr_version = "0.8.0"
+description = "Open an Entire trail as a worktree workspace and start an agent in it"
+platforms = ["linux", "macos"]
+
+# Bound to a key (see README). Runs headless, so all it does is open the popup
+# below with the parent repo root in its environment.
+[[actions]]
+id = "new"
+title = "New worktree from trail"
+contexts = ["workspace"]
+command = ["./bin/open-prompt.sh"]
+
+# The actual flow. A popup owns terminal input, which is what makes pasting a
+# trail id or URL possible: plugin actions take no arguments, and plugins have
+# no native UI surface in Herdr.
+#
+# $HERDR_PLUGIN_ROOT is used instead of a relative path because `plugin pane
+# open --cwd` overrides the pane's working directory, and Herdr only rewrites
+# relative *programs* against the plugin root, not relative arguments.
+[[panes]]
+id = "prompt"
+title = "New worktree from trail"
+placement = "popup"
+width = "72%"
+height = 18
+command = ["sh", "-c", "exec \"$HERDR_PLUGIN_ROOT/bin/prompt.sh\""]
