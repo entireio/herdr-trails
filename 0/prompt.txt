@@ -1,0 +1,1 @@
+can you look at herdr and it's plugin system, I want to add a "new worktree" like flow but instead I want to past it an entire trail id or url and it creates a new worktree with that trails branch checked out and ideally claude code started (maybe provide an option to pick the agent)
