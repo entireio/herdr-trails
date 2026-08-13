@@ -28,7 +28,7 @@ Prerequisites: Herdr 0.8.0+, and `entire` (logged in), `git`, and `jq` on
 `PATH`. `jq` is not preinstalled on macOS before 15 — `brew install jq`.
 
 ```bash
-herdr plugin install entireio/herdr-plugin-trail-worktree
+herdr plugin install entireio/herdr-trails
 ```
 
 Pin a revision with `--ref v0.1.0` when you want a known version: install
